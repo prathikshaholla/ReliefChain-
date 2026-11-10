@@ -1,6 +1,6 @@
-# ReliefChain — Disaster Relief Resource Allocation & Routing System
+# ReliefChain â€” Disaster Relief Resource Allocation & Routing System
 
-**DBMS Experiential Learning — Level 3 Project (2-member team)**
+**DBMS Experiential Learning â€” Level 3 Project (2-member team)**
 
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
 [![pgvector](https://img.shields.io/badge/pgvector-384--dim-green.svg)](https://github.com/pgvector/pgvector)
@@ -13,7 +13,7 @@ ReliefChain answers them with three database paradigms working together:
 
 | Paradigm | Engine | Used for |
 | :-- | :-- | :-- |
-| Relational | **PostgreSQL 16** | Camps, depots, inventory, fleet, dispatch — ACID transactions, row locks, triggers, views |
+| Relational | **PostgreSQL 16** | Camps, depots, inventory, fleet, dispatch â€” ACID transactions, row locks, triggers, views |
 | Vector | **pgvector** | 384-dim embeddings of SOS messages, HNSW index, cosine-distance (`<=>`) search |
 | Document | **MongoDB 7** | Drone telemetry with varying sensor payloads, incident feed, aggregation pipeline |
 
@@ -23,8 +23,8 @@ ReliefChain answers them with three database paradigms working together:
 
 | Member | Role | Owns |
 | :-- | :-- | :-- |
-| **Vishnu Anand** (Member 1) | Database Architect & Core Backend | Relational schema, views, ACID procedure, Haversine function, triggers, seed data, curriculum queries, DB pool / transaction helper, dashboard · camps · requests · inventory · dispatch APIs, project setup |
-| **Prathiksha** (Member 2) | Full-Stack & NoSQL/Vector Specialist | pgvector layer + urgency function, embedding & triage engine, MongoDB + aggregation pipeline, JWT/bcrypt auth & RBAC, all UI, SQL Lab API, Docker Compose, smoke tests |
+| **Vishnu Anand** (Member 1) | Database Architect & Core Backend | Relational schema (`01`), views (`02`), ACID dispatch procedure + Haversine + triggers (`03`), seed data (`05`), curriculum queries; DB pool & transaction helper, HTTP helpers; dashboard Â· camps Â· requests Â· inventory Â· dispatch APIs; JWT/bcrypt auth & RBAC; SQL Lab API; Docker Compose; db-setup Â· test-connections Â· smoke-test scripts; project config (`package.json`, `tsconfig.json`, `.gitignore`, `.env.example`, `README.md`, `CONTRIBUTING.md`) |
+| **Prathiksha B P** (Member 2) | Full-Stack & NoSQL/Vector Specialist | pgvector column + HNSW index + urgency score (`04`); embedding & triage engine; MongoDB client + aggregation pipeline; seed-mongo script; SOS Â· semantic-search Â· telemetry APIs; entire frontend (layout, page, global CSS, all components & tabs, client session & toast helpers); viva report |
 
 The file-by-file split is in [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -56,7 +56,7 @@ Check everything is wired up with `npm run test:connections`.
 | Command | What it does |
 | :-- | :-- |
 | `npm run db:setup` | Re-run `sql/01..05` against `DATABASE_URL` (drops & rebuilds everything) |
-| `npm run db:seed-mongo` | Re-seed MongoDB (timestamps are relative to now — re-run before a demo) |
+| `npm run db:seed-mongo` | Re-seed MongoDB (timestamps are relative to now â€” re-run before a demo) |
 | `npm run db:reset` | Both of the above |
 | `npm run test:connections` | Check both databases are reachable and seeded |
 | `npm run test:smoke` | 46 end-to-end API checks against a running app (then `db:reset`) |
@@ -81,14 +81,14 @@ Permissions and page access live in one place, [`src/lib/permissions.ts`](src/li
 
 ## Evaluator walkthrough
 
-1. **ACID dispatch** — *Supplies & Shipments* page. Pick a request; depots are ranked by `fn_find_nearest_warehouse_with_stock` (Haversine). Pick a vehicle and run it.
-   `sp_process_resource_dispatch` locks request → inventory → vehicle (`FOR UPDATE`), validates remaining demand, stock and payload, moves stock to *reserved*, creates the shipment + manifest, dispatches the vehicle and writes the audit row.
-   Try sending too much, or 500 meal cases on a drone — the procedure raises, the transaction rolls back, and nothing changes.
-2. **Triggers** — click **Mark delivered** on a shipment: `trg_shipment_delivery` frees the vehicle, releases reserved stock and fulfils the request. The **Failed** button returns the stock to the depot and re-opens the request. *Recent activity* on the Overview shows who did it.
-3. **Vector search** — *Emergency Calls* page, *Find similar calls*. Search *"insulin for diabetic elderly"*: the query is embedded to 384 dims and ranked with `ORDER BY embedding <=> $1`. Recording a call embeds and classifies it in one step.
-4. **MongoDB** — *Field Reports* page. The drone survey summary comes from the 4-stage pipeline (`$match → $group → $project → $sort`) over documents with different sensor payloads (thermal, multispectral, LiDAR). Switch the time window to re-run it.
-5. **SQL Lab API** (ADMIN, no page in the UI) — `GET /api/sql-lab` lists presets for joins, GROUP BY/HAVING, scalar & correlated subqueries, window functions, stored functions, views, pgvector, JSONB and `EXPLAIN ANALYZE`; `POST /api/sql-lab` runs one statement in a `READ ONLY` transaction with a 5 s timeout.
-6. **DML showcase** — `sql/queries/curriculum_queries.sql` (INSERT / UPDATE / DELETE / procedure CALL inside a transaction that is rolled back):
+1. **ACID dispatch** â€” *Supplies & Shipments* page. Pick a request; depots are ranked by `fn_find_nearest_warehouse_with_stock` (Haversine). Pick a vehicle and run it.
+   `sp_process_resource_dispatch` locks request â†’ inventory â†’ vehicle (`FOR UPDATE`), validates remaining demand, stock and payload, moves stock to *reserved*, creates the shipment + manifest, dispatches the vehicle and writes the audit row.
+   Try sending too much, or 500 meal cases on a drone â€” the procedure raises, the transaction rolls back, and nothing changes.
+2. **Triggers** â€” click **Mark delivered** on a shipment: `trg_shipment_delivery` frees the vehicle, releases reserved stock and fulfils the request. The **Failed** button returns the stock to the depot and re-opens the request. *Recent activity* on the Overview shows who did it.
+3. **Vector search** â€” *Emergency Calls* page, *Find similar calls*. Search *"insulin for diabetic elderly"*: the query is embedded to 384 dims and ranked with `ORDER BY embedding <=> $1`. Recording a call embeds and classifies it in one step.
+4. **MongoDB** â€” *Field Reports* page. The drone survey summary comes from the 4-stage pipeline (`$match â†’ $group â†’ $project â†’ $sort`) over documents with different sensor payloads (thermal, multispectral, LiDAR). Switch the time window to re-run it.
+5. **SQL Lab API** (ADMIN, no page in the UI) â€” `GET /api/sql-lab` lists presets for joins, GROUP BY/HAVING, scalar & correlated subqueries, window functions, stored functions, views, pgvector, JSONB and `EXPLAIN ANALYZE`; `POST /api/sql-lab` runs one statement in a `READ ONLY` transaction with a 5 s timeout.
+6. **DML showcase** â€” `sql/queries/curriculum_queries.sql` (INSERT / UPDATE / DELETE / procedure CALL inside a transaction that is rolled back):
    `docker exec -i reliefchain_postgres psql -U relief_admin -d reliefchain_db < sql/queries/curriculum_queries.sql`
 
 ---
@@ -97,10 +97,10 @@ Permissions and page access live in one place, [`src/lib/permissions.ts`](src/li
 
 ```
                  Next.js 15 (React 19, TypeScript)
-     UI (src/components)  ──►  REST route handlers (src/app/api)
-                                   │  JWT auth + RBAC (src/lib/auth.ts)
-          ┌────────────────────────┼─────────────────────────┐
-          ▼                        ▼                         ▼
+     UI (src/components)  â”€â”€â–º  REST route handlers (src/app/api)
+                                   â”‚  JWT auth + RBAC (src/lib/auth.ts)
+          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+          â–¼                        â–¼                         â–¼
    PostgreSQL 16             pgvector (same DB)          MongoDB 7
    12 tables, 4 views,       vector(384) + HNSW,         drone_recon_telemetry,
    procedure, functions,     cosine <=> search            incident_event_feed,
@@ -112,7 +112,7 @@ Key design decisions:
 - **Integrity lives in the database.** Business rules are CHECK constraints, triggers and the dispatch procedure, so they hold even for writes that bypass the API.
 - **Who did it?** Every API write runs in a transaction that sets `app.user_id`; triggers read it through `fn_current_app_user()` to attribute audit rows.
 - **No fan-out in views.** Child tables are pre-aggregated before joining so totals aren't multiplied.
-- **Stock accounting:** `available` → (dispatch) → `reserved` → (delivered) gone / (failed) back to `available`.
+- **Stock accounting:** `available` â†’ (dispatch) â†’ `reserved` â†’ (delivered) gone / (failed) back to `available`.
 
 ## Repository layout
 
@@ -124,10 +124,10 @@ sql/
   04_vector_and_scoring.sql      pgvector column, HNSW index, urgency score    (Prathiksha)
   05_seed.sql                    demo dataset                                  (Vishnu)
   queries/curriculum_queries.sql DML + query showcase (not auto-run)           (Vishnu)
-scripts/                         db-setup, test-connections (Vishnu) · seed-mongo, smoke-test, convert_docs_to_pdf (Prathiksha)
-src/lib/                         db/postgres.ts, http.ts (Vishnu) · auth, permissions, db/mongo, vector/semantic, client/* (Prathiksha)
-src/app/api/                     dashboard, camps, requests, inventory, dispatch (Vishnu) · auth, sos, semantic-search, telemetry, sql-lab (Prathiksha)
+scripts/                         db-setup, test-connections, smoke-test, convert_docs_to_pdf (Vishnu) Â· seed-mongo (Prathiksha)
+src/lib/                         db/postgres.ts, http.ts, auth, permissions (Vishnu) Â· db/mongo, vector/semantic, client/* (Prathiksha)
+src/app/api/                     dashboard, camps, requests, inventory, dispatch, auth, sql-lab (Vishnu) Â· sos, semantic-search, telemetry (Prathiksha)
 src/app/, src/components/        UI (Prathiksha)
-docs/                            project report (Vishnu) ·
-docker-compose.yml               database stack (Prathiksha)
+docs/                            project report (Vishnu) Â· viva report (Prathiksha)
+docker-compose.yml               database stack (Vishnu)
 ```
