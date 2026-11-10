@@ -128,6 +128,6 @@ scripts/                         db-setup, test-connections (Vishnu) · seed-mon
 src/lib/                         db/postgres.ts, http.ts (Vishnu) · auth, permissions, db/mongo, vector/semantic, client/* (Prathiksha)
 src/app/api/                     dashboard, camps, requests, inventory, dispatch (Vishnu) · auth, sos, semantic-search, telemetry, sql-lab (Prathiksha)
 src/app/, src/components/        UI (Prathiksha)
-docs/                            project report (Vishnu) · viva report (Prathiksha)
+docs/                            project report (Vishnu) ·
 docker-compose.yml               database stack (Prathiksha)
 ```
