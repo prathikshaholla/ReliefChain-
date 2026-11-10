@@ -5,7 +5,7 @@ No file belongs to both of us, so we never edit the same file and never hit merg
 
 ## Who owns what
 
-### Vishnu Anand — Member 1, Database Architect & Core Backend
+### Vishnu Anand â€” Member 1, Database Architect & Core Backend
 
 | Area | Files |
 | :-- | :-- |
@@ -16,21 +16,22 @@ No file belongs to both of us, so we never edit the same file and never hit merg
 | Curriculum DML/queries | `sql/queries/curriculum_queries.sql` |
 | DB access layer | `src/lib/db/postgres.ts`, `src/lib/http.ts` |
 | Core APIs | `src/app/api/dashboard/`, `camps/`, `requests/`, `inventory/`, `dispatch/` (incl. `dispatch/[id]/status/`) |
+| Auth & RBAC | `src/lib/auth.ts`, `src/lib/permissions.ts`, `src/app/api/auth/` |
+| SQL Lab API | `src/app/api/sql-lab/` |
 | DB scripts | `scripts/load-env.mjs`, `scripts/db-setup.mjs`, `scripts/test-connections.mjs` |
+| Infrastructure & tests | `docker-compose.yml`, `scripts/smoke-test.mjs`, `scripts/convert_docs_to_pdf.py` |
 | Project setup | `package.json`, `package-lock.json`, `tsconfig.json`, `next.config.js`, `next-env.d.ts`, `.gitignore`, `.env.example`, `README.md`, `CONTRIBUTING.md` |
 | Report | `docs/DBMS_Level3_Project_Report_ReliefChain.md` / `.pdf` |
 
-### Prathiksha — Member 2, Full-Stack & NoSQL/Vector Specialist
+### Prathiksha â€” Member 2, Full-Stack & NoSQL/Vector Specialist
 
 | Area | Files |
 | :-- | :-- |
 | Vector layer + urgency score | `sql/04_vector_and_scoring.sql` |
 | Embedding & triage engine | `src/lib/vector/semantic.ts` |
 | MongoDB | `src/lib/db/mongo.ts`, `scripts/seed-mongo.mjs` |
-| Auth & RBAC | `src/lib/auth.ts`, `src/lib/permissions.ts`, `src/app/api/auth/` |
-| Vector / NoSQL / Lab APIs | `src/app/api/sos/`, `semantic-search/`, `telemetry/`, `sql-lab/` |
+| Vector / NoSQL APIs | `src/app/api/sos/`, `semantic-search/`, `telemetry/` |
 | Frontend | `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `src/components/**`, `src/lib/client/**` |
-| Infrastructure & tests | `docker-compose.yml`, `scripts/smoke-test.mjs`, `scripts/convert_docs_to_pdf.py` |
 | Report | `docs/DBMS_Level3_Comprehensive_Viva_Report.md` / `.pdf` |
 
 ### Where the two halves meet
@@ -38,9 +39,9 @@ No file belongs to both of us, so we never edit the same file and never hit merg
 The app only runs with both halves present. These are the contact points:
 
 - Prathiksha's API routes use Vishnu's `query()` / `withTransaction()` (`src/lib/db/postgres.ts`) and the `route()` / `ok()` helpers (`src/lib/http.ts`).
-- Vishnu's API routes use Prathiksha's `requireUser()` (`src/lib/auth.ts`) for RBAC.
+- Prathiksha's API routes use Vishnu's `requireUser()` (`src/lib/auth.ts`) for RBAC, and her UI reads the same role rules from `src/lib/permissions.ts`.
 - `fn_calculate_camp_urgency_score` (Prathiksha, `04`) is called by Vishnu's `/api/camps`.
-- `docker-compose.yml` (Prathiksha) mounts the whole `sql/` folder, so it runs both people's SQL files in order: `01 → 02 → 03 → 04 → 05`.
+- `docker-compose.yml` (Vishnu) mounts the whole `sql/` folder, so it runs both people's SQL files in order: `01 â†’ 02 â†’ 03 â†’ 04 â†’ 05`.
 
 ## Publishing to GitHub (each of us as our own contributor)
 
@@ -56,12 +57,12 @@ git init -b main
 git config user.name  "Vishnu Anand"
 git config user.email "<vishnu's GitHub email>"
 git add .
-git commit -m "Relational schema, views, ACID dispatch procedure, triggers, seed data and core APIs"
+git commit -m "Relational schema, views, ACID dispatch procedure, triggers, seed data, core APIs, auth & RBAC, Docker stack"
 git remote add origin https://github.com/<vishnu-username>/reliefchain.git
 git push -u origin main
 ```
 
-Then on GitHub go to **Settings → Collaborators** and add Prathiksha.
+Then on GitHub go to **Settings â†’ Collaborators** and add Prathiksha.
 
 **2. Prathiksha clones and pushes her half**
 
@@ -74,13 +75,13 @@ git status          # should list only Prathiksha's files as new
 git config user.name  "Prathiksha"
 git config user.email "<prathiksha's GitHub email>"
 git add .
-git commit -m "pgvector triage engine, MongoDB telemetry, JWT auth & RBAC, portal UI, SQL Lab API, Docker stack"
+git commit -m "pgvector triage engine, MongoDB telemetry, emergency-call & field-report APIs, portal UI"
 git push
 ```
 
 > Commits count toward your GitHub profile only if `user.email` matches an email on your GitHub account.
 
-**3. Both: run it** — follow *Quick start* in the README. Until step 2 is pushed the repo is only half the app, so it won't build yet. That's expected.
+**3. Both: run it** â€” follow *Quick start* in the README. Until step 2 is pushed the repo is only half the app, so it won't build yet. That's expected.
 
 ## Working on it afterwards
 
