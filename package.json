@@ -1,0 +1,41 @@
+{
+  "name": "reliefchain",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Disaster relief resource allocation & routing system - PostgreSQL + pgvector + MongoDB",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:setup": "node scripts/db-setup.mjs",
+    "db:seed-mongo": "node scripts/seed-mongo.mjs",
+    "db:reset": "npm run db:setup && npm run db:seed-mongo",
+    "test:connections": "node scripts/test-connections.mjs",
+    "test:smoke": "node scripts/smoke-test.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.468.0",
+    "mongodb": "^6.12.0",
+    "next": "^15.1.0",
+    "pg": "^8.13.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}
