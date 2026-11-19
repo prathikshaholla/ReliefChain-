@@ -101,7 +101,7 @@ available ──(dispatch)──► reserved ──(delivered)──► removed
 - `incident_event_feed`: field incident events.
 - The drone survey summary uses `$match` → `$group` → `$project` → `$sort`.
 
-The entity-relationship diagram is in [`E R diagram.png`](./E%20R%20diagram.png).
+The entity-relationship diagram is in [`E R   Diagram.png`](./E%20R%20Diagram.png).
 
 ## Getting Started
 
